@@ -1,0 +1,15 @@
+{% extends "bboard/layout/basic.html" %}
+
+{% block title %} {{bb.title}} {% endblock title %}
+
+{% block content %}
+
+<p>Рубрика: <a href="{% url 'by_rubric' bb.rubric.pk %}">{{bb.rubric.name}}</p></a>
+<h2>{{ bb.title }}</h2>
+<p>{{ bb.content }}</p>
+<p>Цена: {{ bb.price }}</p>
+<p><a href="{% url 'edit' pk=bb.pk %}">Изменить объявление</a></p>
+<p><a href="{% url 'delete' pk=bb.pk %}">Удалить объявление</a></p>
+
+{% endblock content %}
+

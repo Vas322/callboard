@@ -1,0 +1,23 @@
+{% extends "bboard/layout/basic.html" %}
+
+{% block title %} {{rubric.name}} {% endblock title %}
+
+{% block content %}
+
+{% with bb_count=bbs.count %}
+<h3 class="count">Всего объявлений: {{ bb_count }} </h3>
+{% for bb in bbs %}
+<div>	
+	<hr>				
+	<h2>Рубрика : <a href="{% url 'by_rubric' bb.rubric.pk %}">
+	{{bb.rubric.name|upper}}</a></h2>
+	<h3>Товар: <a href="{% url 'detail' pk=bb.pk %}">{{ bb.title }}</a></h3>
+	<p>Краткое описание товара:<em> {{bb.content|truncatechars:"30"}}</em></p>
+	<p>Дата публикации: <em>{{bb.published|date:"d.m.Y H:i:s"}}</em></p>		
+	{% empty %}
+	<p>В этой рубрике еще нет объявлений...</p>
+</div>
+{% endfor %}
+{% endwith %}
+<hr>
+{% endblock %}

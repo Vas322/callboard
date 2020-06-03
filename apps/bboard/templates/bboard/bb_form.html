@@ -1,0 +1,15 @@
+{% extends "bboard/layout/basic.html" %}
+{% load bootstrap4 %}
+{% load static %}
+{% block title %}Исправление объявления{% endblock %}
+
+{% block content %}
+<h2>Исправление объявления</h2>
+<form method="post">
+	{% csrf_token %}
+	{% bootstrap_form form %}
+	<button class='captcha-refresh'>Обновить
+		<img  src="{% static 'bboard/reload1.png' %}" class="captcha-refresh"></button><br><br>
+{% buttons submit='Изменить' %} {% endbuttons %}
+</form>
+{% endblock %}

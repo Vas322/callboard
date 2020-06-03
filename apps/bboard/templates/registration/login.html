@@ -1,0 +1,16 @@
+{% extends "bboard/layout/basic.html" %}
+{% block title %}Вход{% endblock title %}
+
+{% block content %}
+<h2>Вход</h2>
+{% if user.is_authenticated %}
+	<p>Вы уже вошли на сайт</p>
+	{% else %}
+	<form method="post">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="hidden" name="next" value="{{ next }}">
+		<input type="submit" value="Войти">
+	</form>
+{% endif %}
+{% endblock content %}

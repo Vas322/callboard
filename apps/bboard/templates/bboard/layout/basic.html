@@ -1,0 +1,46 @@
+{% load bootstrap4 %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html" ; charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% block title %}Главная{% endblock %} - Доска объявлений</title>
+  {% bootstrap_css %}
+  <link rel='stylesheet' href="{% static 'bboard/style.css' %}">
+  <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static 'bboard/script.js' %}"></script>
+  {% bootstrap_javascript jquery='full' %}
+</head>
+
+<body onload="clock()">       
+  <p id="clock"> </p>
+  <div class="auth-header">      
+    {% if user.is_authenticated %}    
+    <p class="user">Привет, {{ user.username }} <small>(<a href="{% url 'logout' %}">Выход</a>)</small></p>
+    {% else %}
+    <p class="user">Привет, гость! <small>(<a href="{% url 'login' %}">Авторизоваться</a>)</small></p>
+    {% endif %} 
+    <p><a href="{% url 'index' %}">
+      <img src="{% static 'bboard/bg_v2.jpg' %}" alt="logo" class="page-header"></a></p>   
+    </div>    
+    <header>
+      <h1>Объявления</h1>
+    </header>
+    <nav>
+      <a href="{% url 'index' %}">Главная страница</a>
+      <a href="{% url 'add' %}">Добавить объявление</a>        
+      <hr>
+      <p>Рубрики:</p>
+      {% for rubric in rubrics %}
+      <a href="{% url 'by_rubric' rubric.pk %}">{{rubric.name}}</a>
+      {% endfor %}
+    </nav>
+    <section>
+      {% block content %}
+      
+      {% endblock %}
+    </section> 
+  </body>
+
+  </html>

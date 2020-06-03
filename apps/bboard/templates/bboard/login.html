@@ -1,0 +1,16 @@
+{% extends "bboard/layout/basic.html" %}
+{% block title %}Вход{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated %}
+	<p>Вы уже вошли на сайт</p>
+	{% else %}
+	<h2>Для добавления/изменения/удаления объявлений необходима авторизация!</h2>
+	<form method="post" action="{% url 'login' %}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="hidden" name="next" value="{{ next }}">
+		<input type="submit" value="Авторизоваться">
+	</form>
+{% endif %}
+{% endblock content %}

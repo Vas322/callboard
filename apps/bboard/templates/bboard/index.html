@@ -1,0 +1,21 @@
+{% extends "bboard/layout/basic.html" %}
+{% load bootstrap4 %}
+{% load static %}
+{% block title %}
+Главная страница
+{% endblock %}
+
+{% block content %}
+{% for bb in bbs %}
+<div class="b">
+  <h2><a href="{% url 'detail' pk=bb.pk %}">{{ bb.title }}</a></h2>
+  <p><em>Описание товара:</em> {{bb.content}}</p>
+  <p><em> Рубрика : </em><a href="{% url 'by_rubric' bb.rubric.pk %}">{{bb.rubric.name}}</a> </p>
+  <p><em>Дата создания : </em>{{bb.published|date:"d.m.Y H:i"}}</p>    
+
+</div>
+{% endfor %}
+<div>
+  {% bootstrap_pagination page size='small' %}
+</div>
+{% endblock %}
