@@ -1,5 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
+from os.path import splitext
+from django.shortcuts import redirect
+
+
+def get_timestamp_path(instance, filename):
+    """функция для хранения файла"""
+    return '%s%s' % (datetime.now().timestamp(), splitext(filename))
 
 
 class Bb(models.Model):
@@ -39,6 +47,22 @@ class RevRubric(Rubric):
     class Meta:
         proxy = True
         ordering = ['name']
+
+
+class Img(models.Model):
+    """Модель для изображений"""
+    img = models.ImageField(verbose_name='Изображение', upload_to=get_timestamp_path)
+
+    desc = models.TextField(verbose_name='Описание')
+
+    def delete_img(self, *args, **kwargs):
+        """Удаление изображения"""
+        self.img.delete(save=False)
+        super.delete(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
 
 
 class AdvUser(models.Model):

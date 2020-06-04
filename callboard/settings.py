@@ -122,6 +122,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     # '/bboard/static', - эквивалентно вышеуказанному, но КРУЧЕ и ПОНЯТНЕЕ выглядит вариант выше
 )
+MEDIA_ROOT = os.path.join(BASE_DIR, 'apps/bboard/media/bboard')
+MEDIA_URL = '/media/'
+
 SHORT_DATE_FORМAT = 'j.m.Y'
 LOGIN_REDIRECT_URL = reverse_lazy('index')
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # максимальный размер загружаемого на сайт файла

@@ -8,6 +8,11 @@
 <h2>{{ bb.title }}</h2>
 <p>{{ bb.content }}</p>
 <p>Цена: {{ bb.price }}</p>
+
+{% for img in imgs %}
+<div>	<img src="{{ img.img.url }}"></div>
+<div><a href="{{ img.img.url }}">Загрузить картинку</a></div>
+{% endfor %}
 <p><a href="{% url 'edit' pk=bb.pk %}">Изменить объявление</a></p>
 <p><a href="{% url 'delete' pk=bb.pk %}">Удалить объявление</a></p>
 

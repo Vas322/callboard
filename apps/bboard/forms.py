@@ -1,8 +1,9 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from captcha.fields import CaptchaField
+from django.core import validators
 
-from .models import Bb, Rubric
+from .models import Bb, Img, Rubric
 from django.contrib.auth.models import User
 
 
@@ -17,7 +18,7 @@ class BbForm(forms.ModelForm):
                                     label='Рубрика', help_text='Не забудьте указать рубрику!',
                                     widget=forms.widgets.Select(attrs={'size': 8}))
     captcha = CaptchaField(label='Введите текст с картинки',
-                           error_messages={'invalid': 'Неправильный текст'},)
+                           error_messages={'invalid': 'Неправильный текст'}, )
     """
     published = forms.DateField(label='Дата публикации',
                                 widget=forms.widgets.SelectDateWidget(
@@ -57,3 +58,19 @@ class RegisterUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name')
+
+
+class ImgForm(forms.ModelForm):
+    """Форма загрузки изображения"""
+    img = forms.ImageField(label='Изображение',
+                           validators=[validators.FileExtensionValidator(
+                           allowed_extensions=('gif', 'jpg', 'png'))],
+                           widget=forms.widgets.ClearableFileInput(attrs={'multiple': True}),
+                           error_messages={'invalid_extention': 'Этот формат файлов ' +
+                                                                'не поддерживается'})
+    desc = forms.CharField(label='Описание',
+                           widget=forms.widgets.Textarea())
+
+    class Meta:
+        model = Img
+        fields = '__all__'
