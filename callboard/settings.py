@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'captcha',
     'precise_bbcode',
     'bootstrap4',
+    'django_cleanup',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
@@ -122,8 +124,17 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     # '/bboard/static', - эквивалентно вышеуказанному, но КРУЧЕ и ПОНЯТНЕЕ выглядит вариант выше
 )
-MEDIA_ROOT = os.path.join(BASE_DIR, 'apps/bboard/media/bboard')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+THUMBNAIL_ALIASES = {
+    '': {
+        'default': {
+            'size': (96, 96),
+            'crop': 'scale',
+        },
+    },
+}
+THUMBNAIL_BASEDIR = 'thumbnails'
 
 SHORT_DATE_FORМAT = 'j.m.Y'
 LOGIN_REDIRECT_URL = reverse_lazy('index')

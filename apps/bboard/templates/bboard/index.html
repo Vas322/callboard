@@ -1,21 +1,33 @@
 {% extends "bboard/layout/basic.html" %}
 {% load bootstrap4 %}
+{% load thumbnail %}
 {% load static %}
-{% block title %}
-Главная страница
-{% endblock %}
 
 {% block content %}
-{% for bb in bbs %}
-<div class="b">
-  <h2><a href="{% url 'detail' pk=bb.pk %}">{{ bb.title }}</a></h2>
-  <p><em>Описание товара:</em> {{bb.content}}</p>
-  <p><em> Рубрика : </em><a href="{% url 'by_rubric' bb.rubric.pk %}">{{bb.rubric.name}}</a> </p>
-  <p><em>Дата создания : </em>{{bb.published|date:"d.m.Y H:i"}}</p>    
 
-</div>
-{% endfor %}
+<ul class="list-unstyled">
+    {% for bb in bbs %}
+    <li class="media my-5 p-3 border">
+        
+        <a href="{{ url }}{{ all }}">
+        {% if bb.image %}
+        <img class="mr-3" src="{% thumbnail bb.image 'default' %}">
+        {% else %}
+        <img class="mr-3" src="{% static 'bboard/empty.jpg' %}">
+        {% endif %}
+        </a>
+        <div class="media-body">
+          <h2><a href="{% url 'detail' pk=bb.pk %}">{{ bb.title }}</a></h2>
+          <div class="content">{{ bb.content }}</div>
+          <p class="text-right font-weight-bold">{{ bb.price }} руб.</p>
+          <p class="text-right font-italic">{{ bb.published }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
 <div>
   {% bootstrap_pagination page size='small' %}
 </div>
 {% endblock %}
+
+

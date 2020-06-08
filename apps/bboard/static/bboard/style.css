@@ -73,3 +73,12 @@ p{
 .pagination {
 
 }
+.media-body{
+  border-left: 1px solid #c5c5c5;
+  margin-left: 10px;
+  padding-left: 10px;
+  width: 92%
+}
+.content{
+  width: 92%
+}

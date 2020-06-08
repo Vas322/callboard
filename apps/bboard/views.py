@@ -1,5 +1,5 @@
-from .forms import BbForm, ImgForm
-from .models import Bb, Rubric, RevRubric, Img
+from .forms import BbForm, AIFormSet
+from .models import Bb, Rubric, RevRubric
 from django.urls import reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -7,14 +7,23 @@ from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic.dates import ArchiveIndexView
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, FileResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from callboard.settings import BASE_DIR
 from datetime import datetime
 import os
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
-FILES_ROOT = os.path.join(BASE_DIR, 'apps/bboard/media/bboard/')
+FILES_ROOT = os.path.join(BASE_DIR, '/media/')
+
+
+@login_required
+def profile(request):
+    bbs = Bb.objects.all()
+    context = {'bbs': bbs}
+    return render(request, 'bboard/profile.html', context)
 
 
 class BbEditView(UpdateView):
@@ -50,24 +59,23 @@ def edit(request, pk):
         return render(request, 'bboard/bb_form.html', context)
 
 
-@login_required()
-def add_img(request):
-    """вьюха добавления изображения"""
+@login_required
+def profile_bb_add(request):
     if request.method == 'POST':
-        form = ImgForm(request.POST, request.FILES)
+        form = BbForm(request.POST, request.FILES)
         if form.is_valid():
-            uploaded_file = request.FILES['img']
-            fn = '%s%s' % (datetime.now().timestamp(), os.path.splitext(uploaded_file.name)[1])
-            fn = os.path.join(FILES_ROOT, fn)
-            with open(fn, 'wb+') as destination:
-                for chunk in uploaded_file.chunks():
-                    destination.write(chunk)
-            return redirect('index')
-
+            bb = form.save()
+            formset = AIFormSet(request.POST, request.FILES, instance=bb)
+            if formset.is_valid():
+                formset.save()
+                messages.add_message(request, messages.SUCCESS,
+                                     'Объявление добавлено')
+                return redirect('index')
     else:
-        form = ImgForm()
-    context = {'form': form}
-    return render(request, 'bboard/add_img.html', context)
+        form = BbForm()
+        formset = AIFormSet()
+    context = {'form': form, 'formset': formset}
+    return render(request, 'bboard/profile_bb_add.html', context)
 
 
 class BbAddView(LoginRequiredMixin, FormView):
@@ -163,7 +171,7 @@ def index(request):
     """Вьюха главной страницы с пагинатором"""
     rubrics = RevRubric.objects.all()
     bbs = Bb.objects.all()
-    paginator = Paginator(bbs, 3)
+    paginator = Paginator(bbs,3)
     if 'page' in request.GET:
         page_num = request.GET['page']
     else:

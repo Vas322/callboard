@@ -7,17 +7,23 @@ from django.shortcuts import redirect
 
 def get_timestamp_path(instance, filename):
     """функция для хранения файла"""
-    return '%s%s' % (datetime.now().timestamp(), splitext(filename))
+    return '%s%s' % (datetime.now().timestamp(), splitext(filename)[1])
 
 
 class Bb(models.Model):
     """Модель, описывающая объявление"""
     title = models.CharField(max_length=50, verbose_name='Товар')
-    content = models.TextField(null=True, blank=True, verbose_name='Описание товара')
-    price = models.FloatField(null=True, blank=True, verbose_name='Цена')
+    content = models.TextField(verbose_name='Описание товара')
+    price = models.FloatField(default=0, verbose_name='Цена')
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Опубликовано')
     rubric = models.ForeignKey('Rubric', null=True, on_delete=models.PROTECT, related_name='entries',
                                verbose_name='Рубрика')
+    image = models.ImageField(blank=True, upload_to=get_timestamp_path, verbose_name='Изображение')
+
+    def delete(self, *args, **kwargs):
+        for ai in self.additionalimage_set.all():
+            ai.delete()
+            super().delete(*args, **kwargs)
 
     class Meta:
         """Атрибуты, позволяющие использовать форму множественного/единственного числа 'Объявления' """
@@ -49,20 +55,14 @@ class RevRubric(Rubric):
         ordering = ['name']
 
 
-class Img(models.Model):
-    """Модель для изображений"""
-    img = models.ImageField(verbose_name='Изображение', upload_to=get_timestamp_path)
-
-    desc = models.TextField(verbose_name='Описание')
-
-    def delete_img(self, *args, **kwargs):
-        """Удаление изображения"""
-        self.img.delete(save=False)
-        super.delete(*args, **kwargs)
+class AdditionalImage(models.Model):
+    """Модель для иллюстраций"""
+    bb = models.ForeignKey(Bb, on_delete=models.CASCADE, verbose_name='Объявление')
+    image = models.ImageField(upload_to=get_timestamp_path, verbose_name='Изображение')
 
     class Meta:
-        verbose_name = 'Изображение'
-        verbose_name_plural = 'Изображения'
+        verbose_name = 'Дополнительная иллюстрация'
+        verbose_name_plural = 'Дополнительные иллюстрации'
 
 
 class AdvUser(models.Model):
