@@ -56,11 +56,12 @@ p {
   font-weight: bold;
   font-size: 20px;
 }
-.user{
+.user, .auth_vk{
   text-align: right;
   margin-right: 10px;
   color: #c5c5c5;
 }
+
 .captcha-refresh{
   background: 000000;
   border: 0;
@@ -82,4 +83,7 @@ p {
 }
 .text-content{
   color: grey;
+}
+.img{
+
 }

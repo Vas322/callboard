@@ -15,7 +15,10 @@
 
 <body onload="clock()">       
   <p id="clock"> </p>
-  <div class="auth-header">      
+  <div class="auth-header">
+    <div class="auth_vk">
+      <a href=" {% url 'social:begin' 'vk-oauth2' %}">Войти через Вконтакте</a>      
+    </div>
     {% if user.is_authenticated %}    
     <p class="user">Привет, {{ user.username }} <small>(<a href="{% url 'logout' %}">Выход</a>)</small></p>
     {% else %}

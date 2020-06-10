@@ -11,9 +11,9 @@
         
         <a href="{{ url }}{{ all }}">
         {% if bb.image %}
-        <img class=" mr-3" src="{% thumbnail bb.image 'default' %}">
+        <img class="img" src="{% thumbnail bb.image 'default' %}">
         {% else %}
-        <img class=" mr-3" src="{% static 'bboard/empty.jpg' %}">
+        <img class="img" src="{% static 'bboard/empty.jpg' %}">
         {% endif %}
         </a>
         <div class="media-body ">
