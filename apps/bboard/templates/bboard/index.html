@@ -7,18 +7,18 @@
 
 <ul class="list-unstyled">
     {% for bb in bbs %}
-    <li class="media my-5 p-3 border">
+    <li class="media my-5 p-3 border ">
         
         <a href="{{ url }}{{ all }}">
         {% if bb.image %}
-        <img class="mr-3" src="{% thumbnail bb.image 'default' %}">
+        <img class=" mr-3" src="{% thumbnail bb.image 'default' %}">
         {% else %}
-        <img class="mr-3" src="{% static 'bboard/empty.jpg' %}">
+        <img class=" mr-3" src="{% static 'bboard/empty.jpg' %}">
         {% endif %}
         </a>
-        <div class="media-body">
+        <div class="media-body ">
           <h2><a href="{% url 'detail' pk=bb.pk %}">{{ bb.title }}</a></h2>
-          <div class="content">{{ bb.content }}</div>
+          <div class="text-content w-90 p-3">{{ bb.content }}</div>
           <p class="text-right font-weight-bold">{{ bb.price }} руб.</p>
           <p class="text-right font-italic">{{ bb.published }}</p>
         </div>

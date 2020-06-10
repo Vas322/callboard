@@ -39,13 +39,15 @@ section {
   border-radius: 8px;
   box-shadow: 0 0 10px #c5c5c5; /* Параметры тени */
 }
-p{
+p {
   font-size: 16pt;
   margin: 10px 0px
+  color: grey;
 }
 .count{
   text-align: right;
   margin-right: 10px;
+  color: grey;
 }
 #clock{
   text-align: right;
@@ -75,10 +77,9 @@ p{
 }
 .media-body{
   border-left: 1px solid #c5c5c5;
-  margin-left: 10px;
+
   padding-left: 10px;
-  width: 92%
 }
-.content{
-  width: 92%
+.text-content{
+  color: grey;
 }
