@@ -1,3 +1,6 @@
+body{
+  color: grey;
+}
 header h1 {
   font-size: 40pt;
   text-transform: uppercase;
@@ -85,5 +88,12 @@ p {
   color: grey;
 }
 .img{
-
+  width: 150px;
+  text-align: center;
+}
+.price-date{
+  color: greyblack;
+}
+li{
+  border-radius: 8px;
 }

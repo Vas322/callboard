@@ -13,9 +13,9 @@
 		<li class="media my-5 p-3 border">
 	<a href="{{ url }}{{ all }}">
 		{% if bb.image %}
-		<img class="mr-3" src="{% thumbnail bb.image 'default' %}">
+		<img class="img mr-3" src="{% thumbnail bb.image 'default' %}">
 		{% else %}
-		<img class="mr-3" src="{% static 'bboard/empty.jpg' %}">
+		<img class="img mr-3" src="{% static 'bboard/empty.jpg' %}">
 		{% endif %}
 	</a>
 <div class="media-body">

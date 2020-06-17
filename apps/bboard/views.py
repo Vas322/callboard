@@ -48,6 +48,7 @@ def edit(request, pk):
         if bbf.is_valid():
             if bbf.has_changed():
                 bbf.save()
+                messages.add_message(request, messages.SUCCESS, 'Объявление исправлено!')
                 return HttpResponseRedirect(reverse('by_rubric',
                                                     kwargs={'rubric_id': bbf.cleaned_data['rubric'].pk}))
         else:

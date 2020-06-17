@@ -5,8 +5,6 @@ from os.path import splitext
 from django.shortcuts import redirect
 
 
-
-
 def get_timestamp_path(instance, filename):
     """функция для хранения файла"""
     return '%s%s' % (datetime.now().timestamp(), splitext(filename)[1])
@@ -26,8 +24,6 @@ class Bb(models.Model):
         for ai in self.additionalimage_set.all():
             ai.delete()
             super().delete(*args, **kwargs)
-
-
 
     class Meta:
         """Атрибуты, позволяющие использовать форму множественного/единственного числа 'Объявления' """

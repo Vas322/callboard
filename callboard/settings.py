@@ -153,5 +153,5 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-SOCIAL_AUTH_VK_OAUTH2_KEY = 'ххххххх'
-SOCIAL_AUTH_VK_OAUTH2_SECRET = 'хххххххххх'
+SOCIAL_AUTH_VK_OAUTH2_KEY = '7507341'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'Qv42nVKJySZifeWP18J9'
