@@ -15,6 +15,7 @@ from datetime import datetime
 import os
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.views.decorators.cache import cache_control
 
 FILES_ROOT = os.path.join(BASE_DIR, '/media/')
 
@@ -168,11 +169,12 @@ class BbIndexView(ArchiveIndexView):
         return context
 
 
+@cache_control(max_age=3600)
 def index(request):
     """Вьюха главной страницы с пагинатором"""
     rubrics = RevRubric.objects.all()
     bbs = Bb.objects.all()
-    paginator = Paginator(bbs,3)
+    paginator = Paginator(bbs, 3)
     if 'page' in request.GET:
         page_num = request.GET['page']
     else:
