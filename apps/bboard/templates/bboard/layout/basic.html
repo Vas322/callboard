@@ -27,7 +27,10 @@
 <p id="clock"> </p>
 <div class="auth-header">
   <div class="auth_vk">
-    <a href=" {% url 'social:begin' 'vk-oauth2' %}">Войти через Вконтакте</a>      
+    <p>Авторизуйтесь через: 
+    <a href=" {% url 'social:begin' 'vk-oauth2' %}">
+      <img src="{% static 'bboard/vk_log_20.png' %}" alt="Login via vk"></a>
+      </p>      
   </div>
   {% if user.is_authenticated %}    
   <p class="user">Привет, {{ user.username }} <small>(<a href="{% url 'logout' %}">Выход</a>)</small></p>

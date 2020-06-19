@@ -63,6 +63,7 @@ p {
   text-align: right;
   margin-right: 10px;
   color: #c5c5c5;
+  font-size: 20px;
 }
 
 .captcha-refresh{
@@ -96,4 +97,7 @@ p {
 }
 li{
   border-radius: 8px;
+}
+.auth_vk{
+  
 }
