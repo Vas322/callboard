@@ -9,5 +9,13 @@ class BbAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')
 
 
+class BbInline(admin.StackedInline):
+    model = Bb
+
+
+class RubricAdmin(admin.ModelAdmin):
+    inlines = [BbInline]
+
+
 admin.site.register(Bb, BbAdmin)
-admin.site.register(Rubric)
+admin.site.register(Rubric, RubricAdmin)
