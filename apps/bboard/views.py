@@ -14,9 +14,9 @@ from callboard.settings import BASE_DIR
 import os
 from django.contrib import messages
 from django.views.decorators.cache import cache_control
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
+
 from .serializers import RubricSerializer
+from rest_framework import status, generics
 
 FILES_ROOT = os.path.join(BASE_DIR, '/media/')
 
@@ -185,10 +185,13 @@ def index(request):
     return render(request, 'bboard/index.html', context)
 
 
-@api_view(['GET'])
-def api_rubrics(request):
-    """Вьюха для работы с api, выводящей список рубрик"""
-    if request.method == 'GET':
-        rubrics = Rubric.objects.all()
-        serializer = RubricSerializer(rubrics, many=True)
-        return Response(serializer.data)
+class APIRubrics(generics.ListCreateAPIView):
+    """Вьюха выводит перечень сущностей и создает новую сущность"""
+    queryset = Rubric.objects.all()
+    serializer_class = RubricSerializer
+
+
+class APIRubricDetail(generics.RetrieveUpdateDestroyAPIView):
+    """Вьюха выполняет вывод сведений об отдельной сущности и удаление сущностей"""
+    queryset = Rubric.objects.all()
+    serializer_class = RubricSerializer
