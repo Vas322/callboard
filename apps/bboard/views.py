@@ -17,6 +17,7 @@ from django.views.decorators.cache import cache_control
 
 from .serializers import RubricSerializer
 from rest_framework import status, generics
+from rest_framework.viewsets import ModelViewSet
 
 FILES_ROOT = os.path.join(BASE_DIR, '/media/')
 
@@ -193,5 +194,11 @@ class APIRubrics(generics.ListCreateAPIView):
 
 class APIRubricDetail(generics.RetrieveUpdateDestroyAPIView):
     """Вьюха выполняет вывод сведений об отдельной сущности и удаление сущностей"""
+    queryset = Rubric.objects.all()
+    serializer_class = RubricSerializer
+
+
+class APIRubricViewSet(ModelViewSet):
+    """Метаконтроллер, который выполняет всю функциональность с сущностями"""
     queryset = Rubric.objects.all()
     serializer_class = RubricSerializer

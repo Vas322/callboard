@@ -1,6 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from .views import BbDetailView, BbEditView, BbAddView, BbByRubricView, BbDeleteView, \
-    BbIndexView, index, edit, delete, profile_bb_add, profile, APIRubrics, APIRubricDetail
+    BbIndexView, index, edit, delete, profile_bb_add, profile, APIRubrics, APIRubricDetail, APIRubricViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('rubrics', APIRubricViewSet)
 
 urlpatterns = [
     path('add/', profile_bb_add, name='profile_bb_add'),
@@ -12,4 +16,5 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('api/rubrics/', APIRubrics.as_view()),
     path('api/rubrics/<int:pk>', APIRubricDetail.as_view()),
+    path('api/', include(router.urls)),
 ]
