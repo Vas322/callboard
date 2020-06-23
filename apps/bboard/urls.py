@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import BbDetailView, BbEditView, BbAddView, BbByRubricView, BbDeleteView, \
-    BbIndexView, index, edit, delete, profile_bb_add, profile
+    BbIndexView, index, edit, delete, profile_bb_add, profile, api_rubrics
 
 urlpatterns = [
     path('add/', profile_bb_add, name='profile_bb_add'),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('detail/<int:pk>/', BbDetailView.as_view(), name='detail'),
     path('delete/<int:pk>/', delete, name='delete'),
     path('profile/', profile, name='profile'),
+    path('api/rubrics/', api_rubrics),
 ]

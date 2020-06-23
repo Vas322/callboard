@@ -7,15 +7,16 @@ from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.views.generic.dates import ArchiveIndexView
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from django.http import HttpResponse, HttpResponseRedirect, FileResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from callboard.settings import BASE_DIR
-from datetime import datetime
 import os
-from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.views.decorators.cache import cache_control
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import RubricSerializer
 
 FILES_ROOT = os.path.join(BASE_DIR, '/media/')
 
@@ -182,3 +183,12 @@ def index(request):
     page = paginator.get_page(page_num)
     context = {'rubrics': rubrics, 'page': page, 'bbs': page.object_list}
     return render(request, 'bboard/index.html', context)
+
+
+@api_view(['GET'])
+def api_rubrics(request):
+    """Вьюха для работы с api, выводящей список рубрик"""
+    if request.method == 'GET':
+        rubrics = Rubric.objects.all()
+        serializer = RubricSerializer(rubrics, many=True)
+        return Response(serializer.data)
