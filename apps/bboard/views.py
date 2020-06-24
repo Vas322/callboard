@@ -29,18 +29,6 @@ def profile(request):
     return render(request, 'bboard/profile.html', context)
 
 
-class BbEditView(UpdateView):
-    """Вьюха исправления объявления"""
-    model = Bb
-    form_class = BbForm
-    success_url = '/bboard/detail/{id}'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        return context
-
-
 @login_required()
 def edit(request, pk):
     """Вьюха исправления объявления"""
@@ -82,30 +70,6 @@ def profile_bb_add(request):
     return render(request, 'bboard/profile_bb_add.html', context)
 
 
-class BbAddView(LoginRequiredMixin, FormView):
-    """Добавление нового объявления"""
-    template_name = 'bboard/create.html'
-    form_class = BbForm
-    success_url = 'bboard/detail/{id}'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        return context
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-    def get_form(self, form_class=None):
-        self.object = super().get_form(form_class)
-        return self.object
-
-    def get_success_url(self):
-        return reverse('by_rubric',
-                       kwargs={'rubric_id': self.object.cleaned_data['rubric'].pk})
-
-
 class BbDetailView(DetailView):
     """Детальная информация об объявлении"""
     model = Bb
@@ -130,18 +94,6 @@ class BbByRubricView(ListView):
         return context
 
 
-class BbDeleteView(DeleteView):
-    """Вьюха удаляет объявление"""
-    model = Bb
-    form_class = BbForm
-    success_url = '/bboard/'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        return context
-
-
 def delete(request, pk):
     """Вьюха удаляет объявление"""
     if request.user.is_authenticated:
@@ -155,20 +107,6 @@ def delete(request, pk):
             return render(request, 'bboard/bb_confirm_delete.html', context)
     else:
         return render(request, 'bboard/login.html')
-
-
-class BbIndexView(ArchiveIndexView):
-    """Вьюха выводит все записи в хронологическом порядке по датам"""
-    model = Bb
-    date_field = 'published'
-    template_name = 'bboard/index.html'
-    context_object_name = 'bbs'
-    allow_empty = True
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['rubrics'] = Rubric.objects.all()
-        return context
 
 
 @cache_control(max_age=3600)

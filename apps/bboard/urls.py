@@ -1,6 +1,6 @@
 from django.urls import path, include
-from .views import BbDetailView, BbEditView, BbAddView, BbByRubricView, BbDeleteView, \
-    BbIndexView, index, edit, delete, profile_bb_add, profile, APIRubrics, APIRubricDetail, APIRubricViewSet
+from .views import BbDetailView, BbByRubricView, index, edit, delete, profile_bb_add, profile, APIRubrics,\
+    APIRubricDetail, APIRubricViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
