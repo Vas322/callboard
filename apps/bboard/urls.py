@@ -1,7 +1,10 @@
 from django.urls import path, include
-from .views import BbDetailView, BbByRubricView, index, edit, delete, profile_bb_add, profile, APIRubrics,\
+from .views import BbDetailView, BbByRubricView, index, edit, delete, profile_bb_add, profile, APIRubrics, \
     APIRubricDetail, APIRubricViewSet
 from rest_framework.routers import DefaultRouter
+from django.contrib.staticfiles.views import serve
+from django.views.decorators.cache import never_cache
+from django.conf import settings
 
 router = DefaultRouter()
 router.register('rubrics', APIRubricViewSet)
@@ -18,3 +21,7 @@ urlpatterns = [
     path('api/rubrics/<int:pk>', APIRubricDetail.as_view()),
     path('api/', include(router.urls)),
 ]
+
+# запрещает кеширование статик файлов во время отладки
+if settings.DEBUG:
+    urlpatterns.append(path('static/<path:path>', never_cache(serve)))
